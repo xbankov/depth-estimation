@@ -1,0 +1,3 @@
+torchvision
+h5py
+numpy
