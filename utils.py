@@ -4,7 +4,9 @@ import tarfile
 import zipfile
 
 import h5py
+import matplotlib.pyplot as plt
 import numpy as np
+import torchvision.transforms.functional as F
 from PIL import Image
 from torchvision.datasets.utils import download_url
 
@@ -101,3 +103,16 @@ def _replace_folder(src: str, dst: str):
     if os.path.exists(dst):
         shutil.rmtree(dst)
     shutil.move(src, dst)
+
+
+def show(imgs):
+    plt.rcParams["savefig.bbox"] = 'tight'
+    if not isinstance(imgs, list):
+        imgs = [imgs]
+    fig, axs = plt.subplots(ncols=len(imgs), squeeze=False)
+    for i, img in enumerate(imgs):
+        img = img.detach()
+        img = F.to_pil_image(img)
+        axs[0, i].imshow(np.asarray(img))
+        axs[0, i].set(xticklabels=[], yticklabels=[], xticks=[], yticks=[])
+    plt.show()
